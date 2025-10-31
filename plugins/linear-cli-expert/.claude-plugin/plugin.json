@@ -1,0 +1,41 @@
+{
+  "name": "linear-cli-expert",
+  "description": "Spec-driven development with Linear CLI and AI agents. Includes Linear Agent CLI tool, research/planning/engineering workflow agents, and comprehensive Linear integration. Transform Linear into your single source of truth for building software with AI.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Juan Bermudez",
+    "email": "jfbg84@gmail.com",
+    "url": "https://github.com/juanbermudez"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/juanbermudez/hyper-engineering-tools"
+  },
+  "homepage": "https://github.com/juanbermudez/hyper-engineering-tools",
+  "license": "MIT",
+  "keywords": [
+    "linear",
+    "cli",
+    "project-management",
+    "issue-tracking",
+    "spec-driven",
+    "ai-agents",
+    "automation",
+    "workflow",
+    "research",
+    "planning",
+    "engineering"
+  ],
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/ensure-cli-installed.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
