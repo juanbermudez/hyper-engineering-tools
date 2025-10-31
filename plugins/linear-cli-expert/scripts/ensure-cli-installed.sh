@@ -53,6 +53,21 @@ fi
 if check_cli; then
   LINEAR_VERSION=$(linear --version 2>&1 | head -1 || echo "unknown")
   echo "✓ Linear Agent CLI ready (${LINEAR_VERSION})"
+
+  # Check if API key is configured
+  if ! linear whoami &> /dev/null; then
+    echo ""
+    echo "⚠️  Linear API key not configured"
+    echo ""
+    echo "📝 To configure your Linear API key, run:"
+    echo "   linear config setup"
+    echo ""
+    echo "Or set it manually:"
+    echo "   1. Get your API key from: https://linear.app/settings/api"
+    echo "   2. Run: linear config set auth.token \"lin_api_...\""
+    echo "   3. Set default team: linear config set defaults.team \"TEAM-KEY\""
+    echo ""
+  fi
 else
   echo "⚠️  Linear Agent CLI not available. Install manually:"
   echo "   deno install --global --allow-all --name linear \\"
