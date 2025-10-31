@@ -36,10 +36,7 @@
         "url": "https://github.com/juanbermudez"
       },
       "homepage": "https://github.com/juanbermudez/hyper-engineering-tools",
-      "repository": {
-        "type": "git",
-        "url": "https://github.com/juanbermudez/hyper-engineering-tools"
-      },
+      "repository": "https://github.com/juanbermudez/hyper-engineering-tools",
       "license": "MIT",
       "keywords": [
         "linear",
