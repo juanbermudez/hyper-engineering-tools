@@ -7,10 +7,7 @@
     "email": "jfbg84@gmail.com",
     "url": "https://github.com/juanbermudez"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/juanbermudez/hyper-engineering-tools"
-  },
+  "repository": "https://github.com/juanbermudez/hyper-engineering-tools",
   "homepage": "https://github.com/juanbermudez/hyper-engineering-tools",
   "license": "MIT",
   "keywords": [
