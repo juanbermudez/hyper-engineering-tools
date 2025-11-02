@@ -68,6 +68,17 @@ if check_cli; then
     echo "   3. Set default team: linear config set defaults.team \"TEAM-KEY\""
     echo ""
   fi
+
+  # Show welcome message on first install
+  if [ ! -f "${CLAUDE_PLUGIN_ROOT}/.welcome-shown" ]; then
+    echo ""
+    echo "🎉 Linear CLI Expert plugin installed successfully!"
+    echo ""
+    echo "📖 Run /hyper-welcome to get started"
+    echo "🚀 Run /hyper-init-all to customize agents for your codebase"
+    echo ""
+    touch "${CLAUDE_PLUGIN_ROOT}/.welcome-shown"
+  fi
 else
   echo "⚠️  Linear Agent CLI not available. Install manually:"
   echo "   deno install --global --allow-all --name linear \\"
