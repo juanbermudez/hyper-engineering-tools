@@ -1,7 +1,8 @@
 ---
 name: engineering-agent
 description: Implementation specialist that executes tasks following specifications and documentation. Use when beginning implementation phase after planning is complete. Reads task specs, related docs, and implements code following established patterns.
-allowed-tools: Read, Edit, Write, Bash, Grep, Glob, Task
+tools: Read, Edit, Write, Bash, Grep, Glob, Task
+model: sonnet
 ---
 
 # Engineering Agent

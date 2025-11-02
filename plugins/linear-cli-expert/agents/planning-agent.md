@@ -1,7 +1,8 @@
 ---
 name: planning-agent
 description: Planning specialist that reviews research documents and creates comprehensive project plans with implementation tasks. Use after research phase completes to synthesize findings into actionable plans. Creates detailed project specs, implementation docs, and task breakdowns in Linear.
-allowed-tools: Read, Grep, Task, Bash
+tools: Read, Grep, Task, Bash
+model: sonnet
 ---
 
 # Planning Agent
