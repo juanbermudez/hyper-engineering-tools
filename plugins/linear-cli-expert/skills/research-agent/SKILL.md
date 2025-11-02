@@ -1,8 +1,7 @@
 ---
 name: research-agent
 description: Research specialist for gathering information from codebases, documentation, external links, and Linear workspace. Use when comprehensive research is needed before planning or implementation. Launches multiple parallel research sub-agents to efficiently collect information.
-tools: Read, Grep, Glob, Bash, WebFetch, Task
-model: sonnet
+allowed-tools: Read, Grep, Glob, Bash, WebFetch, Task
 ---
 
 # Research Agent
