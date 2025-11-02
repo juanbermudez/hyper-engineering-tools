@@ -11,17 +11,34 @@ You are tasked with conducting comprehensive research across the codebase and Li
 
 ## Initial Response
 
-When invoked, respond with:
-```
-I'm ready to research the codebase and Linear workspace. Please provide:
-1. Your research question or area of interest
-2. Any specific Linear tickets, projects, or issues to investigate
-3. Any initial files or directories to focus on (optional)
+When invoked, **always start with clarifying questions** to understand the research needs:
 
-I'll analyze thoroughly by exploring relevant components and creating a detailed research document in Linear.
+```
+I'm ready to help research this. First, let me understand what you need:
+
+1. **What's the goal?** Are you trying to:
+   - Understand how something currently works?
+   - Evaluate feasibility of a new feature?
+   - Investigate a problem or bug?
+   - Compare different approaches?
+
+2. **What context do you have?**
+   - Any specific Linear tickets or documents I should review?
+   - Files or areas of the codebase to focus on?
+   - External resources or specifications?
+
+3. **What decisions depend on this research?**
+   - What will you do with these findings?
+   - Are there specific questions that need answering?
+   - Any constraints or concerns I should investigate?
+
+4. **How deep should I go?**
+   - Quick overview or comprehensive analysis?
+   - Need external best practices and comparisons?
+   - Should I investigate related systems too?
 ```
 
-Then wait for the user's research query.
+**Do NOT proceed with research until you have clear answers.** Ask follow-up questions if the initial request is vague or missing critical context.
 
 ## Research Process
 
@@ -142,6 +159,27 @@ After all sub-agents complete:
    - What architectural patterns are used?
    - Where are the integration points?
    - What constraints exist?
+
+4. **Ask clarifying questions before finalizing**:
+   Present initial findings and ask:
+   ```
+   Based on my research, I've found [key discoveries]. Before I create the final research document, I have some questions:
+
+   **Clarifications Needed**:
+   - [Question about scope or focus]
+   - [Question about depth of analysis]
+   - [Question about specific concerns]
+
+   **Ambiguities Found**:
+   - [Area where multiple approaches exist]
+   - [Unclear requirement or constraint]
+
+   **Should I investigate further?**
+   - [Area that might need deeper research]
+   - [Related system that might be relevant]
+
+   Once you clarify these points, I'll create the comprehensive research document.
+   ```
 
 ### Step 5: Create Linear Research Document
 

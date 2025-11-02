@@ -55,97 +55,129 @@ If installation fails:
 
 ## Usage
 
-### Basic Workflow
+### How It Works
 
-The plugin provides a three-phase workflow for building features:
+This plugin provides specialized agents that work **collaboratively with you** through an interactive process. The agents ask questions, present options, and help you make informed decisions before taking action.
 
-#### 1. Research Phase
+#### Research Agent: Discovery & Analysis
 
-Ask Claude to research what you're building:
-
+**You start the conversation:**
 ```
-"I need to add OAuth authentication to our API. Can you research our current auth implementation and document how OAuth should integrate?"
-```
-
-Claude launches the research agent, which:
-- Investigates your codebase architecture
-- Reviews existing documentation
-- Fetches external resources (OAuth specs, best practices)
-- Documents all findings in Linear
-
-#### 2. Planning Phase
-
-Once research is complete, ask for a plan:
-
-```
-"Review the OAuth research docs and create a project plan with implementation tasks. Break it down into phases with proper sequencing."
+"I want to add OAuth authentication to our API"
 ```
 
-Claude launches the planning agent, which:
-- Reviews all research documents
-- Creates comprehensive project plan
-- Writes implementation specifications
-- Breaks down work into sequenced tasks with dependencies
-- Creates everything in Linear (project, docs, milestones, tasks)
+**The agent asks clarifying questions:**
+- What's the goal? (understand current system, evaluate feasibility, etc.)
+- What context exists? (existing tickets, specs, similar features)
+- What decisions depend on this research?
+- How deep should the investigation go?
 
-**Iterate on the plan:**
+**After you provide context, the agent:**
+- Reads all mentioned documents and tickets
+- Spawns parallel sub-agents to investigate different areas
+- Synthesizes findings from codebase and external sources
+
+**Then asks more questions based on findings:**
+- "I found your current auth uses JWT. Should OAuth replace it or work alongside it?"
+- "There are 3 approaches for token storage - which trade-offs matter most to you?"
+- "Should I investigate how [related system] might be affected?"
+
+**Finally creates:**
+- Comprehensive research document in Linear with findings, options, and recommendations
+
+#### Planning Agent: Strategy & Breakdown
+
+**You ask for a plan:**
 ```
-"Make the task breakdown more granular"
-"Add a security review phase before implementation"
-"Adjust the timeline to 8 weeks instead of 6"
+"Create an implementation plan for OAuth based on the research"
 ```
 
-#### 3. Implementation Phase
+**The agent starts with questions about scope and approach:**
+- What's in scope vs out of scope?
+- What are the constraints? (timeline, technical limits, team capacity)
+- What's the success criteria?
+- Who's implementing and who needs to approve?
 
-When ready to implement, reference specific tasks:
+**After reading research, it presents options and asks for decisions:**
+- "I see 3 architectural approaches: [A], [B], [C]. Here are the trade-offs..."
+- "Should we tackle [complex part X] in phase 1 or defer it?"
+- "The existing [system Y] will need changes - acceptable or should we work around it?"
+- "This could be done in 3-5 weeks with shortcuts or 8-10 weeks more thoroughly - what's the priority?"
 
+**You discuss and refine:**
 ```
-"Implement task ENG-123 for OAuth token generation"
+"Let's go with Approach B, but defer the migration tool to v2"
+"Make the first phase just the core flow, move error handling to phase 2"
+"Actually, we need to handle Google and GitHub from the start, not just Google"
 ```
 
-Claude launches the engineering agent, which:
-- Reads task specifications from Linear
-- Reviews related documentation and project plan
+**The agent iterates:**
+- Adjusts approach based on your feedback
+- Presents revised plan structure
+- Asks if phasing makes sense
+
+**Once aligned, creates:**
+- Detailed implementation plan in Linear
+- Project with milestones and phases
+- Sequenced tasks with dependencies
+- Specifications and success criteria
+
+**Key point:** The agent doesn't just accept "plan OAuth" and run off. It engages like a senior engineer would - asking about priorities, presenting trade-offs, challenging assumptions, and ensuring alignment before committing to a plan.
+
+#### Engineering Agent: Implementation
+
+**You reference a specific task:**
+```
+"Implement task ENG-201"
+```
+
+**The agent:**
+- Reads task spec and related docs from Linear
 - Studies existing codebase patterns
-- Implements following conventions
+- Implements following established conventions
+- Runs tests and verifies changes
 - Updates task status in Linear
 
-### Example: Full Feature Implementation
+### What Makes This Different
 
+**Traditional approach (oversimplified):**
 ```
-User: "Add Google OAuth login to our application"
-
-Claude: [Launches research-agent]
-- Researches current auth system
-- Reviews Google OAuth documentation
-- Documents findings in Linear
-- Creates "Google OAuth Research" document
-
-User: "Create implementation plan based on research"
-
-Claude: [Launches planning-agent]
-- Reviews research document
-- Creates "OAuth System" project in Linear
-- Writes implementation specs
-- Creates 12 tasks across 3 milestones
-- Tasks properly sequenced with dependencies
-
-User: "Look good, but make task ENG-204 more granular"
-
-Claude: [Updates planning]
-- Breaks ENG-204 into 3 subtasks
-- Adjusts dependencies
-- Updates estimates
-
-User: "Perfect. Implement ENG-201"
-
-Claude: [Launches engineering-agent]
-- Reads ENG-201 task and specs
-- Studies existing auth code patterns
-- Implements database schema changes
-- Writes tests
-- Updates ENG-201 status to "Done"
+User: "Research OAuth"
+→ Agent dumps research document
+User: "Create a plan"
+→ Agent dumps plan with tasks
+User: "Implement it"
+→ Agent implements
 ```
+*Result: Plans miss context, wrong assumptions, rework needed*
+
+**This plugin's approach (collaborative):**
+```
+User: "Research OAuth"
+→ Agent: "Let me understand what you need. What's the goal? [questions]"
+User: [Provides context]
+→ Agent: [Does research, comes back]
+→ Agent: "Found X, Y, Z. But I have questions about [trade-offs]"
+User: [Discusses, clarifies]
+→ Agent: Creates thorough research document
+
+User: "Create plan"
+→ Agent: "Before I plan, let me clarify scope and constraints. [questions]"
+User: [Discusses]
+→ Agent: [Researches codebase, comes back]
+→ Agent: "Here are 3 approaches with trade-offs. I recommend B because..."
+User: "Makes sense, but let's defer the complex part"
+→ Agent: "Okay, here's the revised structure. Does this phasing work?"
+User: "Yes, but make phase 1 more granular"
+→ Agent: [Adjusts, presents again]
+→ Agent: Creates detailed plan
+
+User: "Implement ENG-201"
+→ Agent: [Implements following spec]
+```
+*Result: Well-informed decisions, aligned plans, less rework*
+
+**The agents act like thoughtful engineers who ask questions and discuss trade-offs, not task robots that blindly execute.**
 
 ## Agent Customization
 
