@@ -185,12 +185,275 @@ All agents are configured in the `agents/` directory and can be customized for y
 
 **Default Behavior**: Reads all related Linear documents before starting implementation. Updates task status at each phase.
 
-## Linear CLI Best Practices
+## Linear Workflow Management
 
-### Always Use JSON Output
+### Team Workflow and Status Progression
 
-All Linear CLI commands should use `--json` for programmatic parsing:
+When working with Linear, always follow the team's workflow states in the correct order:
 
+```bash
+# Get team workflow states
+linear workflow list --team ENG --json
+
+# Common workflow progression:
+# Triage → Backlog → To Do → In Progress → In Review → Done → Canceled
+```
+
+**Status Transition Rules**:
+- New issues default to "Triage" or "Backlog"
+- Use "To Do" for ready-to-work tasks
+- Use "In Progress" when actively working
+- Use "In Review" when code is ready for review
+- Use "Done" only when fully complete and verified
+- Use "Canceled" for abandoned work
+
+```bash
+# Start working on a task
+linear issue update ENG-123 --state "In Progress" --json
+
+# Submit for review
+linear issue update ENG-123 --state "In Review" --json
+
+# Complete task
+linear issue update ENG-123 --state "Done" --json
+```
+
+### Default Values and Conventions
+
+Apply consistent defaults for all Linear operations:
+
+**Default Priority Levels**:
+- 0 = No priority (default)
+- 1 = Urgent (critical issues, blockers)
+- 2 = High (important features)
+- 3 = Normal (standard work)
+- 4 = Low (nice-to-haves)
+
+**Default Assignee**:
+- Use `@me` when creating tasks for yourself
+- Leave unassigned if delegating to team
+
+**Default Team**:
+```bash
+# Query default team from config
+DEFAULT_TEAM=$(linear config get defaults.team)
+
+# Use in commands
+linear issue create --title "Task" --team $DEFAULT_TEAM --json
+```
+
+### Automatic Label Assignment
+
+Apply labels consistently based on task type and scope:
+
+**Work-Type Labels** (choose one):
+- `feature` - New functionality
+- `bug` - Bug fixes
+- `enhancement` - Improvements to existing features
+- `refactor` - Code restructuring
+- `docs` - Documentation updates
+- `test` - Test additions/fixes
+
+**Scope Labels** (choose one or more):
+- `frontend` - UI/UX work
+- `backend` - Server/API work
+- `database` - Database changes
+- `infrastructure` - DevOps/deployment
+- `security` - Security-related changes
+
+**Priority Labels** (when applicable):
+- `critical` - System down, data loss risk
+- `high` - Major functionality broken
+- `medium` - Standard priority
+- `low` - Nice-to-have improvements
+
+```bash
+# Example: Bug fix with proper labels
+linear issue create \
+  --title "Fix login timeout on mobile" \
+  --team ENG \
+  --priority 1 \
+  --label bug frontend security \
+  --assignee @me \
+  --json
+```
+
+### Comment Quality Guidelines
+
+When adding comments to Linear issues, follow these standards:
+
+**Good Comment Structure**:
+```markdown
+[Brief summary of what happened]
+
+**Changes Made**:
+- [Specific change 1 with file reference]
+- [Specific change 2 with file reference]
+
+**Testing**:
+- [What was tested]
+- [Test results]
+
+**Next Steps** (if applicable):
+- [What needs to happen next]
+```
+
+**Examples**:
+
+✅ **Good Comment**:
+```bash
+linear issue comment ENG-123 "Completed OAuth token generation implementation.
+
+**Changes Made**:
+- \`src/auth/oauth.ts\` - Added token generation logic
+- \`src/auth/oauth.test.ts\` - Added unit tests (15 test cases)
+- \`src/types/auth.ts\` - Added TokenResponse interface
+
+**Testing**:
+- All unit tests pass (\`npm test\`)
+- Manual testing with Google OAuth provider successful
+- Token refresh flow verified
+
+**Next Steps**:
+- Ready for code review
+- Blocked on ENG-124 (token validation) before deployment" --json
+```
+
+❌ **Bad Comment**:
+```bash
+linear issue comment ENG-123 "done" --json
+```
+
+### Action-Specific Instructions
+
+#### Creating Issues
+
+**Always include**:
+- Descriptive title (not "Fix bug" but "Fix authentication timeout on mobile")
+- Clear description with context
+- Appropriate labels
+- Team assignment
+- Priority level
+
+**When creating from research**:
+```bash
+# Link to research document in description
+linear issue create \
+  --title "Implement OAuth 2.0 authentication" \
+  --description "$(cat <<'EOF'
+Implement OAuth 2.0 based on research findings.
+
+**Research Document**: [OAuth Research](https://linear.app/workspace/document/abc)
+
+**Requirements**:
+- Support Google and GitHub providers
+- Implement token refresh flow
+- Add proper error handling
+
+**Success Criteria**:
+- All tests pass
+- Documentation updated
+- Security review complete
+EOF
+)" \
+  --team ENG \
+  --priority 2 \
+  --label feature backend security \
+  --project "Auth System" \
+  --assignee @me \
+  --json
+```
+
+#### Updating Status
+
+**Always update status at key milestones**:
+- Starting work: → "In Progress"
+- Ready for review: → "In Review"
+- Completing work: → "Done"
+
+```bash
+# Starting work
+linear issue update ENG-123 \
+  --state "In Progress" \
+  --assignee @me \
+  --json
+
+# Add comment explaining what you're doing
+linear issue comment ENG-123 \
+  "Starting implementation. Will tackle token generation first, then refresh flow." \
+  --json
+```
+
+#### Adding Comments During Work
+
+**Comment at these points**:
+1. When starting work (plan)
+2. When encountering blockers
+3. When completing major milestones
+4. When requesting review
+5. When completing work
+
+```bash
+# Blocker encountered
+linear issue comment ENG-123 \
+  "Blocked: Discovered that current database schema doesn't support OAuth provider metadata.
+
+**Issue**: Users table lacks \`oauth_provider\` and \`oauth_id\` columns
+
+**Options**:
+1. Create migration to add columns (preferred)
+2. Create separate oauth_accounts table
+
+Need input on preferred approach before proceeding." \
+  --json
+
+# Also update issue to reflect blocker
+linear issue update ENG-123 \
+  --state "Blocked" \
+  --label blocked \
+  --json
+```
+
+#### Searching for Context
+
+**Before creating new issues**, search for existing work:
+
+```bash
+# Search by keyword
+linear issue list --search "OAuth" --json
+
+# Filter by labels
+linear issue list --label feature backend --json
+
+# Check related issues
+linear issue relations ENG-123 --json
+```
+
+#### Creating Relationships
+
+**Use relationships to show dependencies**:
+
+```bash
+# This work blocks other work
+linear issue create \
+  --title "Add OAuth database schema" \
+  --blocks ENG-124 ENG-125 \
+  --json
+
+# This work is related
+linear issue update ENG-123 \
+  --related-to ENG-126 \
+  --json
+
+# This duplicates existing work
+linear issue update ENG-127 \
+  --duplicate-of ENG-123 \
+  --json
+```
+
+### JSON Output and Error Handling
+
+**Always use JSON output**:
 ```bash
 # ✓ Correct
 linear issue create --title "Task" --team ENG --json
@@ -199,8 +462,7 @@ linear issue create --title "Task" --team ENG --json
 linear issue create --title "Task" --team ENG
 ```
 
-### Check Success in Responses
-
+**Check success in responses**:
 ```bash
 RESULT=$(linear issue create --title "Task" --team ENG --json)
 if echo "$RESULT" | jq -e '.success' > /dev/null; then
@@ -211,76 +473,47 @@ else
 fi
 ```
 
-### Task Context Detection
-
-The CLI can detect current task from project context:
-
-```bash
-# When working within a project context
-linear issue view --current-project  # Shows current task
-linear issue update --state "In Progress"  # Updates current task
-```
-
-### Issue Relationships for Dependencies
-
-Use relationship flags to create task dependencies:
-
-```bash
-# Create foundation work
-linear issue create --title "Database schema" --team ENG --json
-
-# Create dependent work
-linear issue create \
-  --title "API implementation" \
-  --team ENG \
-  --blocks ENG-100 \
-  --json
-
-# View all relationships
-linear issue relations ENG-100 --json
-```
-
-### Labels and Organization
-
-Use hierarchical labels for better organization:
-
-```bash
-# Labels display as "parent/child"
-linear issue create \
-  --title "Fix API bug" \
-  --label Bugfix Backend \
-  --team ENG \
-  --json
-# Result: "Work-Type/Bugfix, Scope/Backend"
-```
-
 ### Documents and Specifications
 
 Create rich specification documents linked to projects:
 
 ```bash
-# Create specification
-SPEC="# OAuth Implementation
+# Create specification with cross-references
+SPEC="# OAuth Implementation Specification
 
 ## Overview
-[Your spec content here]
+Implement OAuth 2.0 authentication supporting multiple providers.
+
+## Research
+Based on: [OAuth Research](https://linear.app/workspace/document/research-abc)
 
 ## Dependencies
-- [ENG-100](https://linear.app/workspace/issue/ENG-100)
+- Depends on: [ENG-100](https://linear.app/workspace/issue/ENG-100)
+- Blocks: [ENG-125](https://linear.app/workspace/issue/ENG-125)
 
-## Implementation Plan
-[Details here]"
+## Implementation Phases
+
+### Phase 1: Database Schema
+[Details...]
+
+### Phase 2: Token Generation
+[Details...]
+
+## Testing Strategy
+[Details...]"
 
 linear document create \
-  --title "OAuth Specification" \
+  --title "OAuth 2.0 Implementation Spec" \
   --content "$SPEC" \
   --project "Auth System" \
   --json
 ```
 
-**Cross-references**: Use markdown links with full URLs:
-- Format: `[ENG-123](https://linear.app/workspace/issue/ENG-123)`
-- Plain text like `ENG-123` won't create links
+**Cross-reference format**:
+- Issues: `[ENG-123](https://linear.app/workspace/issue/ENG-123)`
+- Documents: `[Title](https://linear.app/workspace/document/id)`
+- Projects: `[Name](https://linear.app/workspace/project/slug)`
+- Plain text like `ENG-123` won't create links ❌
 
 ### Project and Milestone Management
 
