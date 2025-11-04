@@ -20,7 +20,20 @@ Thank you for installing the Linear CLI Expert plugin for Claude Code. This plug
 
 ## Quick Start
 
-### 1. Configure Linear API Key (Required)
+### 1. Initialize This Project (Required)
+
+Set up Linear CLI Expert for **this specific project**:
+
+```
+/hyper-setup
+```
+
+This copies skills and agents to `.claude/` in your project directory, making them:
+- ✅ Project-specific and customizable
+- ✅ Shareable with your team via git
+- ✅ Independent from other projects
+
+### 2. Configure Linear API Key (Required)
 
 If you haven't already, set up your Linear API key:
 
@@ -36,7 +49,7 @@ linear config set defaults.team "TEAM-KEY"
 
 Get your API key at: https://linear.app/settings/api
 
-### 2. Customize Agents for Your Codebase (Recommended)
+### 3. Customize Agents for Your Codebase (Recommended)
 
 The agents work out of the box, but they're much more powerful when customized for your specific codebase and Linear workspace:
 
@@ -165,8 +178,17 @@ See the [Linear CLI documentation](https://github.com/juanbermudez/linear-agent-
 
 ## Next Steps
 
-1. ✅ Configure your Linear API key with `linear config setup`
-2. ✅ Run `/hyper-init-all` to customize agents for your codebase
-3. ✅ Start using the agents for spec-driven development!
+1. ✅ Run `/hyper-setup` to initialize this project
+2. ✅ Configure your Linear API key with `linear config setup`
+3. ✅ Run `/hyper-init-all` to customize agents for your codebase
+4. ✅ Start using the agents for spec-driven development!
+
+## Project vs Global
+
+**This plugin installs at the PROJECT level**, not globally:
+- Each project gets its own copy of skills and agents in `.claude/`
+- Customize agents independently per project
+- Share configurations with your team via git
+- Different projects can have different workflows
 
 Happy building! 🚀

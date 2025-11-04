@@ -69,13 +69,26 @@ if check_cli; then
     echo ""
   fi
 
-  # Show welcome message on first install
+  # Check if project is set up
+  if [ ! -f ".claude/.linear-cli-expert-setup" ]; then
+    echo ""
+    echo "📦 Linear CLI Expert plugin is ready!"
+    echo ""
+    echo "⚠️  This project needs to be initialized first."
+    echo ""
+    echo "🚀 Run: /hyper-setup"
+    echo ""
+    echo "This will copy skills and agents to .claude/ for this project."
+    echo ""
+  fi
+
+  # Show welcome message on first plugin install
   if [ ! -f "${CLAUDE_PLUGIN_ROOT}/.welcome-shown" ]; then
     echo ""
     echo "🎉 Linear CLI Expert plugin installed successfully!"
     echo ""
-    echo "📖 Run /hyper-welcome to get started"
-    echo "🚀 Run /hyper-init-all to customize agents for your codebase"
+    echo "📖 Run /hyper-welcome to learn about the plugin"
+    echo "📦 Run /hyper-setup to initialize this project"
     echo ""
     touch "${CLAUDE_PLUGIN_ROOT}/.welcome-shown"
   fi

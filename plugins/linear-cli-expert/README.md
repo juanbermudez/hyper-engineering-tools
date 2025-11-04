@@ -22,8 +22,11 @@ This plugin bundles:
 # Install this plugin
 /plugin install linear-cli-expert@hyper-engineering-tools
 
-# Restart Claude Code
+# Initialize for your project
+/hyper-setup
 ```
+
+**Important**: This plugin installs at the **project level**, not globally. Each project gets its own copy of skills and agents in `.claude/`, allowing you to customize independently and share with your team via git.
 
 ### Requirements
 
@@ -38,6 +41,8 @@ This plugin bundles:
 
 ### First-Time Setup
 
+**Step 1: Plugin Installation**
+
 On first load, the plugin automatically installs the Linear Agent CLI. You'll see:
 
 ```
@@ -49,9 +54,28 @@ If installation fails:
 1. Verify Deno is installed: `deno --version`
 2. Manually install the CLI:
    ```bash
-   cd ~/.claude/plugins/linear-cli-expert@hyper-engineering-tools/cli
-   deno install --global --allow-all --name linear src/main.ts
+   deno install --global --allow-all --name linear \
+     https://raw.githubusercontent.com/juanbermudez/linear-agent-cli/main/src/main.ts
    ```
+
+**Step 2: Project Initialization**
+
+Initialize the plugin for your specific project:
+
+```
+/hyper-setup
+```
+
+This copies skills and agents to `.claude/` in your project:
+- `.claude/skills/linear-cli-expert/` - Main orchestrator skill
+- `.claude/agents/` - Research, planning, and engineering agents
+- `.claude/temp/hyper-init/` - Temporary initialization files
+
+After setup, commit to git to share with your team:
+```bash
+git add .claude/
+git commit -m "Add Linear CLI Expert configuration"
+```
 
 ## Usage
 

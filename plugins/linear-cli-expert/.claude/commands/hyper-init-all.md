@@ -16,26 +16,29 @@ Run each initialization in sequence:
 ### Step 1: Initialize Research Agent
 
 Execute the `/hyper-init-research-agent` command functionality:
+- Launch 2-5 parallel sub-agents to research different aspects
 - Analyze codebase documentation structure
 - Investigate Linear workspace patterns
-- Create customized research agent at `.claude/agents/research-agent.md`
-- Generate findings at `.claude/temp/hyper-init/research-agent-findings.md`
+- Customize agent at `.claude/agents/research-agent.md` (project-level)
+- Generate findings at `.claude/temp/hyper-init/research-*.md`
 
 ### Step 2: Initialize Planning Agent
 
 Execute the `/hyper-init-planning-agent` command functionality:
+- Launch 2-4 parallel sub-agents for Linear workspace analysis
 - Analyze Linear workspace configuration (workflows, labels, etc.)
 - Study project and issue patterns
-- Create customized planning agent at `.claude/agents/planning-agent.md`
-- Generate findings at `.claude/temp/hyper-init/planning-agent-findings.md`
+- Customize agent at `.claude/agents/planning-agent.md` (project-level)
+- Generate findings at `.claude/temp/hyper-init/planning-*.md`
 
 ### Step 3: Initialize Engineering Agent
 
 Execute the `/hyper-init-engineering-agent` command functionality:
+- Launch 2-4 parallel sub-agents for codebase analysis
 - Analyze technology stack and code organization
 - Study coding patterns and testing practices
-- Create customized engineering agent at `.claude/agents/engineering-agent.md`
-- Generate findings at `.claude/temp/hyper-init/engineering-agent-findings.md`
+- Customize agent at `.claude/agents/engineering-agent.md` (project-level)
+- Generate findings at `.claude/temp/hyper-init/engineering-*.md`
 
 ## Process
 
