@@ -1,3 +1,7 @@
+---
+description: Customize all three agents (research, planning, engineering) for this codebase and Linear workspace
+---
+
 # Initialize All Hyper-Engineering Agents
 
 You are tasked with customizing all three hyper-engineering agents (research, planning, and engineering) for this specific codebase and Linear workspace. This command runs all three initialization processes sequentially.

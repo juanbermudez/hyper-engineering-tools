@@ -1,3 +1,7 @@
+---
+description: Customize the engineering agent for this codebase's tech stack and patterns
+---
+
 # Initialize Engineering Agent for This Codebase
 
 You are tasked with customizing the **engineering-agent** located at `.claude/agents/engineering-agent.md` for this specific codebase.

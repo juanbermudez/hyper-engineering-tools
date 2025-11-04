@@ -1,3 +1,7 @@
+---
+description: Customize the planning agent for this Linear workspace and project workflows
+---
+
 # Initialize Planning Agent for This Codebase
 
 You are tasked with customizing the **planning-agent** located at `.claude/agents/planning-agent.md` for this specific codebase and Linear workspace.

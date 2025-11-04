@@ -1,3 +1,7 @@
+---
+description: Customize the research agent for this codebase through parallel sub-agent analysis
+---
+
 # Initialize Research Agent for This Codebase
 
 You are tasked with customizing the **research-agent** located at `.claude/agents/research-agent.md` for this specific codebase and Linear workspace.

@@ -1,3 +1,7 @@
+---
+description: Learn about the Linear CLI Expert plugin features and how to get started
+---
+
 # Welcome to Linear CLI Expert Plugin! 🚀
 
 Thank you for installing the Linear CLI Expert plugin for Claude Code. This plugin provides specialized agents and tools for spec-driven development with Linear.
