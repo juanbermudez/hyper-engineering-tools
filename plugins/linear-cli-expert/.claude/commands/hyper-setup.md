@@ -1,67 +1,33 @@
 ---
-description: Initialize Linear CLI Expert for this project by copying skills and agents to .claude/ directory
+description: Initialize or reset Linear CLI Expert in this project
 ---
 
 # Setup Linear CLI Expert for This Project
 
-Initialize Linear CLI Expert plugin for this project by copying skills and agents to your project's `.claude/` directory.
+This command copies skills and agents from the plugin to your project's `.claude/` directory.
 
-## What This Does
-
-This command sets up the Linear CLI Expert plugin for **this specific project** by:
-
-1. **Copying the main skill** to `.claude/skills/linear-cli-expert/`
-2. **Copying sub-agent templates** to `.claude/agents/`
-3. **Creating initialization structure** at `.claude/temp/hyper-init/`
-
-After setup, you can customize the agents for your specific codebase using `/hyper-init-all`.
+**Note:** The plugin automatically runs this setup on first session. Use this command to:
+- Manually trigger setup if automatic setup failed
+- Reset/update templates to latest versions
+- Re-initialize after deleting `.claude/` directory
 
 ## Your Task
 
-Execute the following steps:
-
-### Step 1: Create Project Directories
-
-Create the necessary directories in the project:
+Run the setup script:
 
 ```bash
-mkdir -p .claude/skills/linear-cli-expert
-mkdir -p .claude/agents
-mkdir -p .claude/temp/hyper-init
+# Remove setup marker to force re-setup (optional)
+rm -f .claude/.linear-cli-expert-setup
+
+# Run setup
+bash "${CLAUDE_PLUGIN_ROOT}/scripts/setup-project.sh"
 ```
 
-### Step 2: Copy Main Skill
-
-Copy the Linear CLI Expert skill from the plugin to the project:
-
-```bash
-cp -r "${CLAUDE_PLUGIN_ROOT}/templates/skills/linear-cli-expert/"* .claude/skills/linear-cli-expert/
-```
-
-This copies:
-- `SKILL.md` - Main orchestrator skill
-- Any supporting files
-
-### Step 3: Copy Sub-Agent Templates
-
-Copy the three sub-agent templates from the plugin to the project:
-
-```bash
-cp "${CLAUDE_PLUGIN_ROOT}/templates/agents/research-agent.md" .claude/agents/
-cp "${CLAUDE_PLUGIN_ROOT}/templates/agents/planning-agent.md" .claude/agents/
-cp "${CLAUDE_PLUGIN_ROOT}/templates/agents/engineering-agent.md" .claude/agents/
-```
-
-These are base templates that can be customized for your project.
-
-### Step 4: Create Setup Marker
-
-Mark the setup as complete:
-
-```bash
-touch .claude/.linear-cli-expert-setup
-echo "Setup completed on $(date)" > .claude/.linear-cli-expert-setup
-```
+This will:
+1. Create `.claude/skills/linear-cli-expert/` with the main skill
+2. Create `.claude/agents/` with research, planning, and engineering agents
+3. Create `.claude/temp/hyper-init/` for initialization files
+4. Mark setup as complete
 
 ### Step 5: Add to .gitignore (Optional)
 
