@@ -1,3 +1,7 @@
+---
+description: Initialize Linear CLI Expert for this project by copying skills and agents to .claude/ directory
+---
+
 # Setup Linear CLI Expert for This Project
 
 Initialize Linear CLI Expert plugin for this project by copying skills and agents to your project's `.claude/` directory.
