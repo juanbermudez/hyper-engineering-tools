@@ -31,7 +31,7 @@ mkdir -p .claude/temp/hyper-init
 Copy the Linear CLI Expert skill from the plugin to the project:
 
 ```bash
-cp -r "${CLAUDE_PLUGIN_ROOT}/skills/linear-cli-expert/"* .claude/skills/linear-cli-expert/
+cp -r "${CLAUDE_PLUGIN_ROOT}/templates/skills/linear-cli-expert/"* .claude/skills/linear-cli-expert/
 ```
 
 This copies:
@@ -43,9 +43,9 @@ This copies:
 Copy the three sub-agent templates from the plugin to the project:
 
 ```bash
-cp "${CLAUDE_PLUGIN_ROOT}/agents/research-agent.md" .claude/agents/
-cp "${CLAUDE_PLUGIN_ROOT}/agents/planning-agent.md" .claude/agents/
-cp "${CLAUDE_PLUGIN_ROOT}/agents/engineering-agent.md" .claude/agents/
+cp "${CLAUDE_PLUGIN_ROOT}/templates/agents/research-agent.md" .claude/agents/
+cp "${CLAUDE_PLUGIN_ROOT}/templates/agents/planning-agent.md" .claude/agents/
+cp "${CLAUDE_PLUGIN_ROOT}/templates/agents/engineering-agent.md" .claude/agents/
 ```
 
 These are base templates that can be customized for your project.
@@ -172,8 +172,8 @@ If setup fails:
 3. **Check CLAUDE_PLUGIN_ROOT**: Should be set by Claude Code automatically
 4. **Manual verification**: Check if files exist at the plugin location:
    ```bash
-   ls "${CLAUDE_PLUGIN_ROOT}/skills/linear-cli-expert/"
-   ls "${CLAUDE_PLUGIN_ROOT}/agents/"
+   ls "${CLAUDE_PLUGIN_ROOT}/templates/skills/linear-cli-expert/"
+   ls "${CLAUDE_PLUGIN_ROOT}/templates/agents/"
    ```
 
 Begin the setup process now.
