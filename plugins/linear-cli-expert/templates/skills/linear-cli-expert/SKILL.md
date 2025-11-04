@@ -46,18 +46,54 @@ This skill helps you build software using a spec-driven development approach wit
 - Investigates codebase architecture and patterns
 - Reviews existing documentation
 - Fetches external resources (links, docs, references)
-- Documents all findings in Linear documents (linked to project)
+- **Creates a draft project in Linear** to organize all research
+- Documents all findings as Linear documents **appended to the draft project**
+
+**Research Project Setup**:
+```bash
+# Create draft project to organize research
+PROJECT=$(linear project create \
+  --name "Research: OAuth Authentication" \
+  --description "Research phase for OAuth implementation" \
+  --team ENG \
+  --lead @me \
+  --state draft \
+  --json)
+
+PROJECT_SLUG=$(echo "$PROJECT" | jq -r '.project.slug')
+
+# Append research documents to the project
+linear document create \
+  --title "Current Auth Implementation Analysis" \
+  --content "$RESEARCH_FINDINGS" \
+  --project "$PROJECT_SLUG" \
+  --json
+
+linear document create \
+  --title "OAuth 2.0 Research Findings" \
+  --content "$OAUTH_RESEARCH" \
+  --project "$PROJECT_SLUG" \
+  --json
+```
 
 **How to invoke**: Ask to research a topic or feature. The skill will automatically launch the research-agent sub-agent.
 
 **Example**:
 > "I need to add OAuth authentication to our API. Can you research our current auth implementation and document how OAuth should integrate?"
 
-**Output**: Linear documents containing:
-- Current implementation analysis
-- External research findings
-- Integration recommendations
-- Next steps for planning
+**Output**:
+- **Draft project** in Linear (status: "draft")
+- **Multiple research documents** linked to the project containing:
+  - Current implementation analysis
+  - External research findings
+  - Integration recommendations
+  - Next steps for planning
+
+**Key Benefit**: All research documents are organized under a single draft project, making it easy to:
+- Find all research in one place
+- Share the research project link with stakeholders
+- Transition from draft → planned → in progress as work proceeds
+- Keep research separate from implementation tasks
 
 **Customization**: Edit `agents/research-agent.md` to customize research behavior, tools, or output format.
 
@@ -68,12 +104,34 @@ This skill helps you build software using a spec-driven development approach wit
 **When to use**: After research is complete, when you need to create a structured plan and task breakdown.
 
 **What it does**:
-- Reviews all research documents from Phase 1
-- Creates comprehensive project plan
-- Writes implementation specifications
+- Reviews all research documents from Phase 1 (from the draft project)
+- **Transitions project from "draft" → "planned"** status
+- Creates comprehensive implementation plan document
+- Writes detailed specifications
 - Breaks down work into sequenced Linear tasks
 - Applies appropriate labels and priorities
 - Sets up task dependencies using `--blocks` relationships
+- Links all tasks to the project
+
+**Project State Transition**:
+```bash
+# After research phase, transition project to planned
+linear project update PROJECT-SLUG \
+  --state planned \
+  --json
+
+# Add planning document to the same project
+linear document create \
+  --title "OAuth Implementation Plan" \
+  --content "$IMPLEMENTATION_PLAN" \
+  --project "PROJECT-SLUG" \
+  --json
+```
+
+**Result**: The research project now contains both:
+- Research documents (from Phase 1)
+- Implementation plan and specs (from Phase 2)
+- All tasks linked to the project
 
 **Feedback Loop**: After initial plan creation, you can:
 - Review and approve the plan
