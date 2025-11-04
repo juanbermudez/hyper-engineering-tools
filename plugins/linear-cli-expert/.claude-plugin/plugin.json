@@ -1,7 +1,7 @@
 {
   "name": "linear-cli-expert",
   "description": "Spec-driven development with Linear CLI and AI agents. Includes Linear Agent CLI tool, research/planning/engineering workflow agents, and comprehensive Linear integration. Transform Linear into your single source of truth for building software with AI.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": {
     "name": "Juan Bermudez",
     "email": "jfbg84@gmail.com",
